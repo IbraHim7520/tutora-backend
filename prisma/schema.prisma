@@ -23,11 +23,16 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  
+  
 
   role String
 
   @@unique([email])
   @@map("user")
+  teachingsessions Teachingsessions[]
+  sessionBookings SessionBookings[]
+  userReviews UserReviews[]
 }
 
 model Session {
@@ -76,4 +81,58 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+enum TeachingsessionsStatus {
+  PENDING
+  APPROVED
+  REJECT
+}
+model Teachingsessions {
+  id String @id @default(uuid())
+  name String
+  category String
+  date DateTime
+  fromTime DateTime
+  toTime DateTime
+  teacherEmail String
+  maxStudent Int
+  rating Float @default(5.0)
+  image String
+  status TeachingsessionsStatus @default(PENDING)
+  description String
+  teacherId String
+  teacher User @relation(fields: [teacherId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  sessionBookings SessionBookings[]
+
+  @@map("teachingsession")
+  userReviews UserReviews[]
+}
+enum bookingStatus {
+  BOOKED
+  CANCELLED
+  COMPLETED
+}
+model SessionBookings {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  status bookingStatus @default(BOOKED)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  teachingsessionId String
+  teachingsession Teachingsessions @relation(fields: [teachingsessionId], references: [id])
+}
+
+model UserReviews {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  teachingsessionId String
+  teachingsession Teachingsessions @relation(fields: [teachingsessionId], references: [id])
+  rating Int
+  opinion String @default("N/A")
 }
