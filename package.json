@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx tsx watch ./server.ts"
+    "dev": "npx tsx watch ./server.ts",
+    "build": "prisma generate && tsup ./server.ts --format esm --platform node --target node20 --outDir api --external pg-native",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +32,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.1.0",
     "@types/pg": "^8.16.0",
-    "prisma": "^7.3.0"
+    "prisma": "^7.3.0",
+    "tsup": "^8.5.1"
   }
 }

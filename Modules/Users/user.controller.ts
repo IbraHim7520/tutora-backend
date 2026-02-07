@@ -1,6 +1,14 @@
 import { ErrorRequestHandler, Request, Response } from "express"
 import { userService } from "./user.service"
 
+declare global {
+  namespace Express {
+    interface Request {
+      user?: { id: string; role: string };
+    }
+  }
+}
+
 const getUserDataController = async(req: Request , res:Response ) =>{
     try {
         const userData = await userService.getLoggedinUser(req);

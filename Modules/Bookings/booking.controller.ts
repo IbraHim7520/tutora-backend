@@ -1,14 +1,22 @@
 import { Request, Response } from "express"
 import { bookingService } from "./booking.service";
 
+declare global {
+  namespace Express {
+    interface Request {
+      user?: { id: string; [key: string]: any };
+    }
+  }
+}
+
 
 const createBookings = async(req:Request, res:Response)=>{
     try {
         const {sessionId} = req.body;
-        const user = req?.user;
+        const userid = req.user?.id as string;
 
         const bookingData = {
-            userId : user?.id as string,
+            userId : userid,
             teachingsessionId: sessionId as string
         }
 

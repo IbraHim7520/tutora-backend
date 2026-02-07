@@ -1,6 +1,14 @@
 import { Request, Response } from "express";
 import { sessionService } from "./session.service";
 
+declare global {
+  namespace Express {
+    interface Request {
+      user?: { id: string; email: string };
+    }
+  }
+}
+
 const sessionPostControle = async (req: Request, res: Response) => {
   try {
     const data = req.body;

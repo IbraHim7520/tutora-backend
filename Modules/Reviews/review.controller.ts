@@ -1,6 +1,14 @@
 import { Request, Response } from "express"
 import { reviewService } from "./review.service";
 
+declare global {
+  namespace Express {
+    interface Request {
+      user?: { id: string; [key: string]: any };
+    }
+  }
+}
+
 const createReviewsController = async (req: Request, res: Response) => {
   try {
     const user = req.user;
