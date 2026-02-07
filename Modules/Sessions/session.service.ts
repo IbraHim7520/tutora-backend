@@ -23,10 +23,29 @@ const sessionPost = async(payload:IsessionData)=>{
     }
 }
 
+const getAllSessions = async(teacherId: string)=>{
+    try {
+        return await prisma.teachingsessions.findMany({
+            where: {
+                teacherId: teacherId
+            }
+        })
+    } catch (error) {
+        return error
+    }
+}
 
 
-
+const allSessionsForAdmin = async()=>{
+    try {
+        return await prisma.teachingsessions.findMany();
+    } catch (error) {
+        return error
+    }
+}
 
 export const sessionService = {
 sessionPost,
+getAllSessions,
+allSessionsForAdmin
 }

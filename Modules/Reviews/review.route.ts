@@ -6,4 +6,6 @@ const reviewRouter = Router();
 
 reviewRouter.post('/new-reviews' , requireAuth("student", "teacher", "admin") ,reviewController.createReviewsController);
 
-export default reviewRouter;
+reviewRouter.get("/get-all-reviews", requireAuth("teacher", "admin") ,reviewController.allReviewController)
+
+export default reviewRouter

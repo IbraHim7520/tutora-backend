@@ -18,7 +18,7 @@ userRouter.get("/getsessions/:teacherId" , userController.getSessionController)
 
 userRouter.put("/update-profile", requireAuth("student" , "teacher", "admin"), userController.updateProfileController);
 
-
+userRouter.get("/all-users", requireAuth("admin") ,userController.allUsers)
 
 
 

@@ -16,6 +16,7 @@ trustedOrigins: [ process.env.APP_URL || "http://localhost:3000"],
         required: true,
         input: true
       }
+      
     }
   },
   emailAndPassword: { 

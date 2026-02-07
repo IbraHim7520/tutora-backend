@@ -18,6 +18,42 @@ const userReviewCreate = async (reviewData: {
   return result;
 };
 
+
+
+
+
+const getAllSessions = async (teacherId: string) => {
+  try {
+    return await prisma.userReviews.findMany({
+      where: {
+        teachingsession: {
+          teacherId: teacherId,
+        },
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          },
+        },
+        teachingsession: {
+          select: {
+            id: true,
+            name: true,
+            date: true,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Get reviews by teacher error:", error);
+    throw error;
+  }
+};
+
 export const reviewService = {
-    userReviewCreate
+    userReviewCreate,
+    getAllSessions
 }

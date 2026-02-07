@@ -42,8 +42,44 @@ const sessionPostControle = async (req: Request, res: Response) => {
   }
 };
 
+const getAllSessionControl = async(req:Request , res:Response)=>{
+  try {
+    const teacherid = req.user?.id as string;
+    if(!teacherid) return res.status(404).send({success: false , message: "You're Unauthorized"});
 
+    const resData = await sessionService.getAllSessions(teacherid)
+    return res.status(200).send({
+      success : true,
+      data: resData
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error instanceof Error ? error.message : error,
+    });
+  }
+}
+
+const allAdminSessionControll = async(req:Request , res:Response)=>{
+  try {
+    const result = await sessionService.allSessionsForAdmin()
+
+    return res.status(200).send({
+      success : true,
+      data: result || []
+    })
+  } catch (error) {
+      return res.status(500).send({
+      success : false,
+      message: "Internal Error!",
+      data: error
+    })
+  }
+}
 export const sessionController = {
   sessionPostControle,
+  getAllSessionControl,
+  allAdminSessionControll
 
 };

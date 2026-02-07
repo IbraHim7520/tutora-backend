@@ -41,6 +41,27 @@ const createReviewsController = async (req: Request, res: Response) => {
   }
 };
 
+
+const allReviewController = async(req:Request , res:Response) =>{
+  try {
+    const teacherId = req.user?.id as string;
+    if(!teacherId) return res.status(404).send({success: false , message: "You're Unauthorized"});
+    
+    const resData = await reviewService.getAllSessions(teacherId)
+        return res.status(200).send({
+          success : true,
+          data: resData
+    })
+  } catch (error:any) {
+    console.error("Getting Review Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error?.message || "Failed to Getin review",
+    });
+  }
+}
+
 export const reviewController = {
-    createReviewsController
+    createReviewsController,
+    allReviewController
 }

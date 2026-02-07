@@ -199,10 +199,23 @@ const updateProfile = async (req: Request, data: UpdateProfileInput) => {
 
   return result;
 };
+
+
+const allUsersList = async (myId: string) => {
+  return await prisma.user.findMany({
+    where: {
+      id: {
+        not: myId,
+      },
+    },
+  });
+};
+
 export const userService = {
     getLoggedinUser,
     getAllTeacher,
     getSessions,
     getUserAnalytics,
-    updateProfile
+    updateProfile,
+    allUsersList
 }
